@@ -28,9 +28,25 @@ paths:
         - bearerAuth: []
       x-codeSamples:
         - lang: python
-          label: List all unwatered plants
+          label: Python
           source: |
-            planter list -u
+            from renforce import AIOrchestrator, Renforce
+
+            Renforce.auth(api_token="ren13_e5577c1fd352328")
+
+            orchestrator = AIOrchestrator.init(
+                model="gemini-1.5-flash-002",
+                system_prompt="You are a helpful assistant.",
+                output_prompt="Provide a concise response.",
+                temperature=0.3,
+                max_characters=550,
+                min_characters=1
+            )
+
+            result = orchestrator.run(
+                query="De que trata el documento?",
+            )
+
 components:
   securitySchemes:
     bearerAuth:
