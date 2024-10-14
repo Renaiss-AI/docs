@@ -41,7 +41,12 @@
           {
             "bearerAuth": []
           }
-        ]
+        ],
+        "x-codeSamples": {
+          "lang": "bash",
+          "label": "List all unwatered plants",
+          "source": "planter list -u"
+        }
       }
     }
   },
