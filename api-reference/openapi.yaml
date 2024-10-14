@@ -1,13 +1,17 @@
 openapi: 3.0.0
 info:
-  title: Renforce API
+  title: Pod Run API
   version: 1.0.0
+  description: API for running a pod with specified parameters
+
 servers:
   - url: https://api-708130507334.europe-west1.run.app
+
 paths:
-  /orchestrator/run:
+  /pod/run:
     post:
-      summary: Run orchestrator
+      summary: Run a pod
+      description: Execute a pod with the given parameters
       requestBody:
         required: true
         content:
@@ -15,40 +19,33 @@ paths:
             schema:
               type: object
               properties:
+                pod_id:
+                  type: string
+                  description: The ID of the pod to run
                 query:
                   type: string
+                  description: The query to be processed
+                data:
+                  type: object
+                  description: Additional data for the request
+                lang:
+                  type: string
+                  description: The language for the response
+                access_to_sources:
+                  type: boolean
+                  description: Whether the pod has access to sources
               required:
+                - pod_id
                 - query
       responses:
         '200':
           description: Successful response
           content:
-            '*/*': {}
-      security:
-        - bearerAuth: []
-      x-codeSamples:
-        - lang: python
-          label: Python
-          source: |
-            from renforce import AIOrchestrator, Renforce
-
-            Renforce.auth(api_token="ren13_e5577c1fd352328")
-
-            orchestrator = AIOrchestrator.init(
-                model="gemini-1.5-flash-002",
-                system_prompt="You are a helpful assistant.",
-                output_prompt="Provide a concise response.",
-                temperature=0.3,
-                max_characters=550,
-                min_characters=1
-            )
-
-            result = orchestrator.run(
-                query="De que trata el documento?",
-            )
-
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
+            application/json:
+              schema:
+                type: object
+                # You can define the response schema here
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
