@@ -75,11 +75,9 @@
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Orchestrator",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/endpoint/run"
       ]
     }
   ],
