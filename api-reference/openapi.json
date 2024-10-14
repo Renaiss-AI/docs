@@ -19,26 +19,17 @@
     }
   ],
   "paths": {
-    "/orchestrator/run": {
+    "/plants": {
       "get": {
         "description": "Returns all plants from the system that the user has access to",
         "parameters": [
           {
-            "name": "model",
-            "in": "body",
-            "required": true,
+            "name": "limit",
+            "in": "query",
             "description": "The maximum number of results to return",
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "query",
-            "in": "body",
-            "required": true,
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
