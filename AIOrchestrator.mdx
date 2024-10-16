@@ -1,0 +1,166 @@
+---
+title: 'AIOrchestrator'
+description: 'Description of your new file.'
+---
+
+## Overview
+
+Our `AIOrchestrator` method allows you to access any of our available models. You can configure model parameters and interact with multi-modal inputs, including images, videos, text, and audio.
+
+By using our `renforce-arch` model, you can access our auto-routing feature. This option selects the best model for your query, taking into account factors such as accuracy, cost, privacy, and speed.
+
+This method allows access to a wide range of models without worrying about their implementation, future changes, or availability. You'll receive the latest updates for all the models we offer without needing to change your code; simply specify the latest model you want to use.
+
+You can see the method schema here:
+
+https://renaissai.mintlify.app/api-reference/endpoint/run
+
+## How to use?
+
+#### Init
+
+First, you need to initialize an `AIOrchestrator`. You must specify the model you want to use; if not specified, `reinforce-arch` is used by default. The parameters you can configure are:
+
+For the model configuration:
+- **model (str)**: Choose from any of our models.
+- **temperature (float)**: Adjusts randomness of outputs, greater than 1 is random and 0 is deterministic. Default: 0.4
+- **max_tokens (int)**: Maximum number of tokens to generate. A word is generally 2-3 tokens. To disable, set to -1. Default: 750
+- **min_tokens (int)**: Minimum number of tokens to generate. To disable, set to -1. A word is generally 2-3 tokens.
+
+For the prompts model configuration:
+- **system_prompt (str)**: Sets the initial instructions for the model.
+- **output_prompt (str)**: Defines the desired format or type of response.
+
+All of these parameters are optional. To create a new `AIOrchestrator` with default models:
+
+``` python
+orchestrator = AIOrchestrator.init()
+```
+
+#### Make a query
+
+You need to pass always a query, that generally it is the question from the user.
+
+This method has three query types:
+- **Query**: A general question or task.
+- **Image**: A query about an image.
+- **Document**: A query about a PDF document.
+
+We identify the query type based on your parameters. For example, if you send an image, we understand you want to ask about it. If you send only text, we interpret it as a general question or a question about a given context.
+
+Additionally, you can add the following parameter:
+- **context (str):** Provides additional information to the model.
+
+#### Examples
+
+**With a query**
+
+Below is an example of using `AIOrchestrator` to query `renforce-arch` and ask a question about a query with an optional context.
+
+```python
+from renforce import AIOrchestrator, Renforce
+
+# Auth with your token
+Renforce.auth(api_token="${your_ren_token}")
+
+# Initialize your AIOrchestrator
+orchestrator = AIOrchestrator.init()
+
+# Finally, we call to our orchestrator.
+result = orchestrator.run(
+	query="What planet is red?",
+	context="Mars is red, and Venus is yellow-white."
+)
+
+print(result)
+
+"""
+{'status': 'processed', 'model_used': 'renforce-arch', 'result': {'model_answer': 'Mars\n', 'in_tokens': 50, 'out_tokens': 2}}
+"""
+```
+
+**With an image**
+
+Below is an example of using `AIOrchestrator` to query `gemini-flash` and ask a question about an image.
+
+``` python
+from renforce import AIOrchestrator, Renforce
+from renforce.data import RenImage
+from pathlib import Path
+
+# Auth with your token
+Renforce.auth(api_token="${your_ren_token}")
+
+# Initialize your AIOrchestrator
+orchestrator = AIOrchestrator.init(
+	model="gemini-1.5-flash-002",
+	system_prompt="You are an astronomy expert.",
+	temperature=0.3,
+	max_tokens=550,
+	min_tokens=1
+)
+
+# Create a RenImage
+image = RenImage(
+	data=Path("planet.png"),
+	description="A planet image"
+)
+
+# Finally, we call to our orchestrator.
+result = orchestrator.run(
+	query="What is the planet in the image?",
+	image_data=image
+)
+
+print(result)
+
+"""
+{'status': 'processed', 'model_used': 'gemini-1.5-flash-002', 'result': {'model_answer': 'Jupiter\n', 'in_tokens': 300, 'out_tokens': 2}}
+"""
+
+```
+
+**With a PDF Document**
+
+Below is an example of using `AIOrchestrator` to query `gpt-4o-mini` and ask a question about a document.
+
+``` python
+
+from renforce import AIOrchestrator, Renforce
+from renforce.data import RenDoc
+from pathlib import Path
+
+# Auth with your token
+Renforce.auth(api_token="${your_ren_token}")
+
+# Initialize your AIOrchestrator
+orchestrator = AIOrchestrator.init(
+	model="gpt-4o-mini",
+	system_prompt="You are an astronomy expert.",
+	temperature=0.3
+)
+
+# Create a RenDocs
+doc_1 = RenDoc(
+	data=Path("astronomy.pdf"),
+	description="A document about the astronomy"
+)
+
+doc_2 = RenDoc(
+	data=Path("galaxies.pdf"),
+	description="A document about the galaxies"
+)
+
+
+# Finally, we call to our orchestrator.
+result = orchestrator.run(
+	query="What is the galaxy most distant?",
+	doc_data=[doc_1, doc_2]
+)
+
+print(result)
+
+"""
+{'status': 'processed', 'model_used': 'gpt-4o-mini', 'result': {'model_answer': 'According to the book galaxies.pdf. HD1 is the galaxy more distant\n', 'in_tokens': 3500, 'out_tokens': 30}}
+"""
+```
