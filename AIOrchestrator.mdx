@@ -81,9 +81,11 @@ print(result)
 Below is an example of using `AIOrchestrator` to query `gemini-flash` and ask a question about an image.
 
 ``` python
-from renforce import Renforce
-from renforce.data import RenImage
+import base64
 from pathlib import Path
+
+from renforce import Renforce
+from renforce.data import RenImage, RenDocument
 
 # Auth with your token
 Renforce.auth(api_token="${your_ren_token}")
@@ -130,9 +132,11 @@ Below is an example of using `AIOrchestrator` to query `gpt-4o-mini` and ask a q
 
 ``` python
 
-from renforce import Renforce
-from renforce.data import RenDocument, RenImage
+import base64
 from pathlib import Path
+
+from renforce import Renforce
+from renforce.data import RenImage, RenDocument
 
 # Auth with your token
 Renforce.auth(api_token="${your_ren_token}")
