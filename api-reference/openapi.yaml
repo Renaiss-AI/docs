@@ -1,51 +1,119 @@
-openapi: 3.0.0
+swagger: '2.0'
 info:
-  title: Pod Run API
-  version: 1.0.0
-  description: API for running a pod with specified parameters
-
-servers:
-  - url: https://api-708130507334.europe-west1.run.app
-
+  title: AI Orchestrator API
+  version: '1.0.0'
+  description: API for AI orchestration services
+host: ai-orchestrator-708130507334.europe-west1.run.app
+schemes:
+  - https
+securityDefinitions:
+  BearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: Enter your Bearer token in the format **Bearer <token>**
+security:
+  - BearerAuth: []
 paths:
-  /pod/run:
+  /run/orchestrator:
     post:
-      summary: Run a pod
-      description: Execute a pod with the given parameters
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                pod_id:
-                  type: string
-                  description: The ID of the pod to run
-                query:
-                  type: string
-                  description: The query to be processed
-                data:
-                  type: object
-                  description: Additional data for the request
-                lang:
-                  type: string
-                  description: The language for the response
-                access_to_sources:
-                  type: boolean
-                  description: Whether the pod has access to sources
-              required:
-                - pod_id
-                - query
+      summary: Run AI orchestrator
+      operationId: runOrchestrator
+      description: Process a query using the specified AI model and optional attachments
+      security:
+        - BearerAuth: []
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/OrchestratorRequest'
       responses:
         '200':
           description: Successful response
-          content:
-            application/json:
-              schema:
-                type: object
-                # You can define the response schema here
-        '400':
-          description: Bad request
-        '500':
-          description: Internal server error
+          schema:
+            $ref: '#/definitions/OrchestratorResponse'
+      x-google-backend:
+        address: https://ai-orchestrator-708130507334.europe-west1.run.app/run/orchestrator
+        path_translation: CONSTANT_ADDRESS
+        disable_auth: true
+        protocol: h2
+definitions:
+  OrchestratorRequest:
+    type: object
+    required:
+      - query
+    properties:
+      query:
+        type: string
+      model:
+        type: string
+        default: gemini-1.5-flash-002
+        description: Model to use for processing
+      attachments:
+        type: array
+        items:
+          $ref: '#/definitions/Attachment'
+      context:
+        type: string
+      system_prompt:
+        type: string
+      output_prompt:
+        type: string
+      temperature:
+        type: number
+        format: float
+        minimum: 0
+        maximum: 1
+        default: 0.3
+      max_output_tokens:
+        type: integer
+        default: 550
+      min_output_tokens:
+        type: integer
+        default: 1
+  Attachment:
+    type: object
+    discriminator: type
+    required:
+      - type
+      - data
+    properties:
+      type:
+        type: string
+        enum: [image, document]
+      data:
+        type: string
+      description:
+        type: string
+      filename:
+        type: string
+  RenImage:
+    allOf:
+      - $ref: '#/definitions/Attachment'
+      - type: object
+        properties:
+          type:
+            type: string
+            enum: [image]
+  RenDocument:
+    allOf:
+      - $ref: '#/definitions/Attachment'
+      - type: object
+        properties:
+          type:
+            type: string
+            enum: [document]
+  OrchestratorResponse:
+    type: object
+    properties:
+      model_answer:
+        type: string
+      in_tokens:
+        type: integer
+      out_tokens:
+        type: integer
