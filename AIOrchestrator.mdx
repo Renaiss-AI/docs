@@ -43,8 +43,7 @@ You need to pass always a query, that generally it is the question from the user
 
 This method has three query types:
 - **Query**: A general question or task.
-- **Image**: A query about an image.
-- **Document**: A query about a PDF document.
+- **Attachments**: You can attach a image or document.
 
 We identify the query type based on your parameters. For example, if you send an image, we understand you want to ask about it. If you send only text, we interpret it as a general question or a question about a given context.
 
@@ -58,19 +57,17 @@ Additionally, you can add the following parameter:
 Below is an example of using `AIOrchestrator` to query `renforce-arch` and ask a question about a query with an optional context.
 
 ```python
-from renforce import AIOrchestrator, Renforce
+from renforce import Renforce
 
 # Auth with your token
-Renforce.auth(api_token="${your_ren_token}")
+renforce = Renforce(api_token="${your_ren_token}")
 
 # Initialize your AIOrchestrator
-orchestrator = AIOrchestrator.init()
-
-# Finally, we call to our orchestrator.
-result = orchestrator.run(
+renforce.orchestrator.init().run(
 	query="What planet is red?",
 	context="Mars is red, and Venus is yellow-white."
 )
+
 
 print(result)
 
@@ -84,7 +81,7 @@ print(result)
 Below is an example of using `AIOrchestrator` to query `gemini-flash` and ask a question about an image.
 
 ``` python
-from renforce import AIOrchestrator, Renforce
+from renforce import Renforce
 from renforce.data import RenImage
 from pathlib import Path
 
@@ -92,7 +89,7 @@ from pathlib import Path
 Renforce.auth(api_token="${your_ren_token}")
 
 # Initialize your AIOrchestrator
-orchestrator = AIOrchestrator.init(
+orchestrator = renforce.orchestrator.init(
 	model="gemini-1.5-flash-002",
 	system_prompt="You are an astronomy expert.",
 	temperature=0.3,
@@ -100,16 +97,23 @@ orchestrator = AIOrchestrator.init(
 	min_tokens=1
 )
 
+image_path = Path("planet.png")
+
+
 # Create a RenImage
+
+with open(image_path, "rb") as image_file:
+    encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+
 image = RenImage(
-	data=Path("planet.png"),
+	data=encoded_string,
 	description="A planet image"
 )
 
 # Finally, we call to our orchestrator.
 result = orchestrator.run(
 	query="What is the planet in the image?",
-	image_data=image
+	attachments=[image]
 )
 
 print(result)
@@ -122,19 +126,19 @@ print(result)
 
 **With a PDF Document**
 
-Below is an example of using `AIOrchestrator` to query `gpt-4o-mini` and ask a question about a document.
+Below is an example of using `AIOrchestrator` to query `gpt-4o-mini` and ask a question about a documents and images.
 
 ``` python
 
-from renforce import AIOrchestrator, Renforce
-from renforce.data import RenDoc
+from renforce import Renforce
+from renforce.data import RenDoc, RenImage
 from pathlib import Path
 
 # Auth with your token
 Renforce.auth(api_token="${your_ren_token}")
 
 # Initialize your AIOrchestrator
-orchestrator = AIOrchestrator.init(
+orchestrator = renforce.orchestrator.init(
 	model="gpt-4o-mini",
 	system_prompt="You are an astronomy expert.",
 	temperature=0.3
@@ -142,20 +146,31 @@ orchestrator = AIOrchestrator.init(
 
 # Create a RenDocs
 doc_1 = RenDoc(
-	data=Path("astronomy.pdf"),
+	data="gs://astronomy.pdf",
 	description="A document about the astronomy"
 )
 
 doc_2 = RenDoc(
-	data=Path("galaxies.pdf"),
+	data="gs://galaxies.pdf",
 	description="A document about the galaxies"
+)
+
+image_path = Path("planet.png")
+
+with open(image_path, "rb") as image_file:
+    encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+
+# Create a RenImage
+image = RenImage(
+	data=encoded_string,
+	description="A planet image"
 )
 
 
 # Finally, we call to our orchestrator.
 result = orchestrator.run(
 	query="What is the galaxy most distant?",
-	doc_data=[doc_1, doc_2]
+	attachments=[doc_1, doc_2, image]
 )
 
 print(result)
