@@ -42,8 +42,8 @@ orchestrator = AIOrchestrator.init()
 You need to pass always a query, that generally it is the question from the user.
 
 This method has three query types:
-- **Query**: A general question or task.
-- **Attachments**: You can attach a image or document.
+- **Query (str)**: A general question or task.
+- **Attachments (Array[RenImage|RenDocument]**: You can attach a image or document.
 
 We identify the query type based on your parameters. For example, if you send an image, we understand you want to ask about it. If you send only text, we interpret it as a general question or a question about a given context.
 
@@ -124,14 +124,14 @@ print(result)
 
 ```
 
-**With a PDF Document**
+**With a PDF Document and Images**
 
 Below is an example of using `AIOrchestrator` to query `gpt-4o-mini` and ask a question about a documents and images.
 
 ``` python
 
 from renforce import Renforce
-from renforce.data import RenDoc, RenImage
+from renforce.data import RenDocument, RenImage
 from pathlib import Path
 
 # Auth with your token
@@ -145,12 +145,12 @@ orchestrator = renforce.orchestrator.init(
 )
 
 # Create a RenDocs
-doc_1 = RenDoc(
+doc_1 = RenDocument(
 	data="gs://astronomy.pdf",
 	description="A document about the astronomy"
 )
 
-doc_2 = RenDoc(
+doc_2 = RenDocument(
 	data="gs://galaxies.pdf",
 	description="A document about the galaxies"
 )
