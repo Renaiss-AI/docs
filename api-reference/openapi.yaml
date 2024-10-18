@@ -26,6 +26,48 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/OrchestratorResponse"
+      x-code-examples:
+        - lang: python
+          label: Python
+          source: |
+            import base64
+            from renforce import Renforce
+            from renforce.data import RenImage, RenDocument
+            from pathlib import Path
+
+            renforce = Renforce(api_token="ren13_eXXX")
+
+            renforce.orchestrator.init(
+                model="gemini-1.5-flash-002",
+                system_prompt="You are a helpful assistant.",
+                output_prompt="Provide a concise response.",
+                temperature=0.3,
+                max_output_tokens=550,
+                min_output_tokens=1
+            )
+
+            image_path = Path("planet.png")
+
+            with open(image_path, "rb") as image_file:
+                encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+
+            image = RenImage(
+                data=encoded_string,
+                description="A planet image"
+            )
+
+            document = RenDocument(
+                data="gs://testrenaiss/data_2.pdf",
+                description="Proposal"
+            )
+
+            result = renforce.orchestrator.run(
+                query="What is the company in the document?",
+                context="The company is a startup that is developing a new technology to improve the way we live.",
+                attachments=
+            )
+
+            print(result)
 
 servers:
   - url: https://api.renforce.dev
