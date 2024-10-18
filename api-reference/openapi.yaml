@@ -3,7 +3,7 @@ info:
   title: AI Orchestrator API
   version: '1.0.0'
   description: API for AI orchestration services
-host: ai-orchestrator-708130507334.europe-west1.run.app
+host: api.renforce.dev
 schemes:
   - https
 securityDefinitions:
@@ -37,11 +37,6 @@ paths:
           description: Successful response
           schema:
             $ref: '#/definitions/OrchestratorResponse'
-      x-google-backend:
-        address: https://ai-orchestrator-708130507334.europe-west1.run.app/run/orchestrator
-        path_translation: CONSTANT_ADDRESS
-        disable_auth: true
-        protocol: h2
 definitions:
   OrchestratorRequest:
     type: object
