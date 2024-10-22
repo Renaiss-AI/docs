@@ -6,6 +6,7 @@ info:
 security:
   - BearerAuth: []
 paths:
+
   /run/smartpod/{pod_id}:
     post:
       summary: Run SmartPod
@@ -13,34 +14,37 @@ paths:
       description: Run a SmartPod with a given query and optional parameters
       security:
         - BearerAuth: []
-      consumes:
-        - application/json
-      produces:
-        - application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PodRequest'
       parameters:
         - in: path
           name: pod_id
           required: true
-          type: string
-        - in: body
-          name: body
-          required: true
           schema:
-            $ref: '#/definitions/PodRequest'
+            type: string
       responses:
         '200':
           description: Successful response
-          schema:
-            $ref: '#/definitions/PodResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PodResponse'
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/ErrorResponse'
-
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /run/orchestrator:
     post:
       summary: Run AI orchestrator
@@ -128,7 +132,7 @@ components:
         attachments:
           type: array
           items:
-            $ref: '#/definitions/Attachment'
+            $ref: '#/components/schemas/Attachment'
         context:
           type: string
         system_prompt:
@@ -149,7 +153,6 @@ components:
           default: 1
     Attachment:
       type: object
-      discriminator: type
       required:
         - type
         - data
@@ -163,22 +166,7 @@ components:
           type: string
         filename:
           type: string
-    RenImage:
-      allOf:
-        - $ref: '#/definitions/Attachment'
-        - type: object
-          properties:
-            type:
-              type: string
-              enum: [image]
-    RenDocument:
-      allOf:
-        - $ref: '#/definitions/Attachment'
-        - type: object
-          properties:
-            type:
-              type: string
-              enum: [document]
+
     OrchestratorResponse:
       type: object
       properties:
@@ -188,6 +176,7 @@ components:
           type: integer
         out_tokens:
           type: integer
+          
     PodRequest:
       type: object
       required:
@@ -209,6 +198,7 @@ components:
           type: boolean
           default: true
           description: Optional flag to allow access to sources
+    
     PodResponse:
       type: object
       properties:
@@ -218,6 +208,7 @@ components:
         log_entry:
           type: object
           description: The dumped model of the log entry
+    
     ErrorResponse:
       type: object
       properties:
