@@ -45,6 +45,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        x-codeSamples:
+          - lang: python
+            label: Python
+            source: |
+              from renforce import Renforce
+
+              renforce = Renforce(api_token="ren13_xxxx")
+
+              pod = renforce.smartpod.init(
+                  pod_id="8c306691-8a4f-4e8e-82ce-29b0d3f5cc00",
+                  access_to_sources=True,
+                  lang="es"
+              )
+
+
+              result = pod.run(
+                  query="my query",
+                  data={"url": ["example.com"]}
+              )
+
+              print(result)
+              
   /run/orchestrator:
     post:
       summary: Run AI orchestrator
