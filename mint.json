@@ -77,7 +77,8 @@
     {
       "group": "Orchestrator",
       "pages": [
-        "api-reference/endpoint/run"
+        "api-reference/endpoint/run",
+        "api-reference/endpoint/pod"
       ]
     }
   ],
