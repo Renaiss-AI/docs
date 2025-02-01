@@ -42,6 +42,12 @@
       ]
     },
     {
+      "group": "Core",
+      "pages": [
+        "core/rag"
+      ]
+    },
+    {
       "group": "Essentials",
       "pages": [
         "essentials/markdown",
