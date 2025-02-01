@@ -69,7 +69,9 @@ Params:
 
 ***
 
-## Index a Document
+## Index Data
+
+### Files
 
 Learn how to index individual documents into your RAG instance. This process enables your application to retrieve relevant information from custom datasets.
 
@@ -79,13 +81,13 @@ Params:
 
 <CodeGroup>
   ```python Python
-  client_rag.index(file="example.pdf")
+  client_rag.index.file("tesla.pdf")
   ```
 </CodeGroup>
 
 ***
 
-## Index a Loader
+### Loader
 
 Explore how to use loaders to index batches of documents or data sources into your RAG instance, making it easy to manage large datasets efficiently.
 
@@ -95,7 +97,7 @@ Params:
 
 <CodeGroup>
   ```python Python
-  client_rag.index_loader(loader_id="your_loader_id")
+  client_rag.index.loader("your_loader_id")
   ```
 </CodeGroup>
 
@@ -143,8 +145,6 @@ client_rag.search(
   client_rag.remove.file("your_file_id_to_remove")
   ```
 </CodeGroup>
-
-
 
 **Loader**
 
