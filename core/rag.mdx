@@ -45,11 +45,19 @@ Our platform simplifies the process of creating and managing RAG instances, empo
 
 This section explains how to create a RAG instance on our platform. Follow these steps to set up your instance and customize it according to your use case.
 
+Params:
+
+* `name` (Required)
+
+* `description` (Optional)
+
+* `sync_mode` *automatic* or *manual* (Optional, *automatic* by default)
+
 <CodeGroup>
   ```python Python
-  renforce.rag.create(
+  client_rag.create(
     name="Test RAG",
-    description="This a test",
+    description="This a test", 
     sync_mode="automatic"
   )
   ```
@@ -59,13 +67,21 @@ This section explains how to create a RAG instance on our platform. Follow these
   ```
 </CodeGroup>
 
-
-
 ***
 
 ## Index a Document
 
 Learn how to index individual documents into your RAG instance. This process enables your application to retrieve relevant information from custom datasets.
+
+Params:
+
+* `file` pdf or image format (Required)
+
+<CodeGroup>
+  ```python Python
+  client_rag.index(file="example.pdf")
+  ```
+</CodeGroup>
 
 ***
 
@@ -73,8 +89,47 @@ Learn how to index individual documents into your RAG instance. This process ena
 
 Explore how to use loaders to index batches of documents or data sources into your RAG instance, making it easy to manage large datasets efficiently.
 
+Params:
+
+* `loader_id` (Required)
+
+<CodeGroup>
+  ```python Python
+  client_rag.index_loader(loader_id="your_loader_id")
+  ```
+</CodeGroup>
+
 ***
 
 ## Search in Your Index
 
 Discover how to perform searches in your RAG index. This section demonstrates the query process and how to retrieve useful information from your indexed data.
+
+Params:
+
+* `query`: User query - *Required*
+
+* `k`: Number of coincidences in the response - *Optional (5 by default)*
+
+<CodeGroup>
+  ```python Python
+  client_rag.search(
+    query="Where did Tesla live?",
+    k=10
+  )
+  ```
+</CodeGroup>
+
+**Filter by**
+
+You can also filter by:
+
+* `files`: This allow you to search coincidences in a specific document.
+
+* `loaders`: This allow you to search coincidences in documents of a loader.
+
+```python Python
+client_rag.search(
+  query="Where did Tesla live?"
+).filter_by(files=["your_file_ids"])
+```
