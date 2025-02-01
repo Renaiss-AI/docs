@@ -124,12 +124,32 @@ Params:
 
 You can also filter by:
 
-* `files`: This allow you to search coincidences in a specific document.
+* `files`: This allows you to search for matches in a specific document..
 
-* `loaders`: This allow you to search coincidences in documents of a loader.
+* `loaders`: This allows you to search for coincidences in documents of a loader.
 
 ```python Python
 client_rag.search(
   query="Where did Tesla live?"
 ).filter_by(files=["your_file_ids"])
 ```
+
+## Remove Data from Your RAG
+
+**File**
+
+<CodeGroup>
+  ```python helloWorld.js
+  client_rag.remove.file("your_file_id_to_remove")
+  ```
+</CodeGroup>
+
+
+
+**Loader**
+
+<CodeGroup>
+  ```python helloWorld.js
+  client_rag.remove.loader("your_loader_id_to_remove")
+  ```
+</CodeGroup>
