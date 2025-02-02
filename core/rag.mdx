@@ -53,7 +53,7 @@ Params:
 
   renforce = RenforceClient(space_id="your_space_id", token="your_token")
 
-  client_rag = renforce.rag.init("your_rag_id")
+  rag_instance = renforce.rag("your_rag_id")
   ```
 </CodeGroup>
 
@@ -71,7 +71,7 @@ Params:
 
 <CodeGroup>
   ```python Python
-  client_rag.create(
+  rag_instance.create(
     name="Test RAG",
     description="This a test", 
     sync_mode="automatic"
@@ -98,7 +98,7 @@ Params:
 
 <CodeGroup>
   ```python Python
-  client_rag.index.file("tesla.pdf")
+  rag_instance.index.file("tesla.pdf")
   ```
 </CodeGroup>
 
@@ -110,7 +110,7 @@ Params:
 
 <CodeGroup>
   ```python Python
-  client_rag.index.loader("your_loader_id")
+  rag_instance.index.loader("your_loader_id")
   ```
 </CodeGroup>
 
@@ -128,7 +128,7 @@ Params:
 
 <CodeGroup>
   ```python Python
-  scores = client_rag.search(
+  scores = rag_instance.search(
     query="Where did Tesla live?",
     k=10
   )
@@ -142,7 +142,7 @@ Params:
 * `loaders`: This allows you to search for coincidences in documents of a loader.
 
 ```python Python
-scores = client_rag.search(
+scores = rag_instance.search(
   query="Where did Tesla live?"
 ).filter_by(files=["your_file_ids"])
 ```
@@ -165,7 +165,7 @@ If the instance has a "manual" synchronization mode, it's necessary to force it 
 
 <CodeGroup>
   ```python Python
-  client_rag.sync()
+  rag_instance.sync()
   ```
 </CodeGroup>
 
@@ -179,7 +179,7 @@ Remove a file from an instance.
 
 <CodeGroup>
   ```python helloWorld.js
-  client_rag.remove.file("your_file_id_to_remove")
+  rag_instance.remove.file("your_file_id_to_remove")
   ```
 </CodeGroup>
 
@@ -189,7 +189,7 @@ Remove a loader and its files from an instance.
 
 <CodeGroup>
   ```python helloWorld.js
-  client_rag.remove.loader("your_loader_id_to_remove")
+  rag_instance.remove.loader("your_loader_id_to_remove")
   ```
 </CodeGroup>
 
