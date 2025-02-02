@@ -1,5 +1,37 @@
 ---
-title: 'New file'
-description: 'Description of your new file.'
+title: "Invoker"
+description: "Ready-to-use AI functions for your next product."
 ---
 
+This feature enables you to call predefined AI functions, optimizing processes and enhancing user experience. Whether for manage documents, audio, intelligence, content generation, or task automation, invoking the flexibility and power of AI is now at your fingertips.
+
+Renforce has many different features for different needs and functions, you can see them all in the following link:
+
+<Card title="Functions" icon="bolt">
+  All our functions and their configuration.
+</Card>
+
+## Invoke function
+
+Params:
+
+* `function`: Function ID (ex: transcribe-audio, cot, etc) - *Required*
+
+* `data`: Body request required for the function - *Required*
+
+<CodeGroup>
+  ```python Python
+  from renforce import RenforceClient
+
+  renforce = RenforceClient(space_id="your_space_id", token="your_token")
+
+  result = renforce.invoke(
+    function="rag_intelligence",
+    data= {
+      "file_id": "c49630c0-c1eb-5802-b8f6-4fa802e10253",
+      "query": "Who is the genius?",
+      "intelligence": true
+    }
+  )
+  ```
+</CodeGroup>
