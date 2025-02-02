@@ -39,7 +39,29 @@ Here are some practical scenarios where RAG can be utilized:
 
 Our platform simplifies the process of creating and managing RAG instances, empowering developers to focus on building high-impact applications without worrying about the complexities of infrastructure, indexing, or scaling.
 
-***
+
+
+## Initialize a RAG Client
+
+To start using the RAGs service, you need to create a RAG client, this RAG client will attack a specific RAG instance that you set.
+
+Params:
+
+* `rag_id`: (*Required*)
+
+
+
+<CodeGroup>
+  ```python Python
+  from renforce import RenforceClient
+
+  renforce = RenforceClient(space_id="your_space_id", token="your_token")
+
+  client_rag = renforce.rag.init("your_rag_id")
+  ```
+</CodeGroup>
+
+
 
 ## Create a RAG Instance
 
@@ -71,9 +93,10 @@ Params:
 
 ## Index Data
 
-### Files
+To begin using a RAG instance, it is necessary to index the data with it. Indexing creates a "data knowledge base," which is stored in the RAG drive. This drive is unique to each RAG instance.
+When adding a new file or loader, depending on whether automatic or manual sync mode is enabled, a manual sync may be required to update the instance.
 
-Learn how to index individual documents into your RAG instance. This process enables your application to retrieve relevant information from custom datasets.
+### File
 
 Params:
 
@@ -85,11 +108,7 @@ Params:
   ```
 </CodeGroup>
 
-***
-
 ### Loader
-
-Explore how to use loaders to index batches of documents or data sources into your RAG instance, making it easy to manage large datasets efficiently.
 
 Params:
 
@@ -115,7 +134,7 @@ Params:
 
 <CodeGroup>
   ```python Python
-  client_rag.search(
+  scores = client_rag.search(
     query="Where did Tesla live?",
     k=10
   )
@@ -124,21 +143,37 @@ Params:
 
 **Filter by**
 
-You can also filter by:
-
 * `files`: This allows you to search for matches in a specific document..
 
 * `loaders`: This allows you to search for coincidences in documents of a loader.
 
 ```python Python
-client_rag.search(
+scores = client_rag.search(
   query="Where did Tesla live?"
 ).filter_by(files=["your_file_ids"])
 ```
 
-## Remove Data from Your RAG
 
-**File**
+
+## Synchronize RAG instance data
+
+If the instance has a "manual" synchronization mode, it's necessary to force it to synchronize with the new data. However, if the RAG instance has "automatic" synchronization, it's also possible to force synchronization using this method.
+
+<CodeGroup>
+  ```python Python
+  client_rag.sync()
+  ```
+</CodeGroup>
+
+
+
+## Removing data from an RAG instance
+
+Destroying data from an RAG instance does not restore it, so be careful when removing any item from the instance.
+
+### **File**
+
+Remove a file from an instance.
 
 <CodeGroup>
   ```python helloWorld.js
@@ -146,10 +181,16 @@ client_rag.search(
   ```
 </CodeGroup>
 
-**Loader**
+### Loader
+
+Remove a loader and its files from an instance.
 
 <CodeGroup>
   ```python helloWorld.js
   client_rag.remove.loader("your_loader_id_to_remove")
   ```
 </CodeGroup>
+
+### Instance
+
+Removing instances is allowed only from the Panel, this is for security reasons. See the following link for more information:
