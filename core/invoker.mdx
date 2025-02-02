@@ -13,6 +13,18 @@ Renforce has many different features for different needs and functions, you can 
   All our functions and their configuration.
 </Card>
 
+## Start a Renforce Client
+
+<CodeGroup>
+  ```javascript Python
+  from renforce import RenforceClient
+
+  client = RenforceClient(space_id="your_Space_id", token="your_token")
+  ```
+</CodeGroup>
+
+##
+
 ## Invoke function
 
 Params:
@@ -22,7 +34,7 @@ Params:
 * `data`: Body request required for the function - *Required*
 
 <CodeGroup>
-  ```python Python
+  ```javascript Python
   from renforce import RenforceClient
 
   renforce = RenforceClient(space_id="your_space_id", token="your_token")
@@ -30,7 +42,7 @@ Params:
   result = renforce.invoke(
     function="rag_intelligence",
     data= {
-      "file_id": "c49630c0-c1eb-5802-b8f6-4fa802e10253",
+      "file_id": "your_file_id",
       "query": "Who is the genius?",
       "intelligence": true
     }

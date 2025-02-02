@@ -39,6 +39,16 @@ Here are some practical scenarios where RAG can be utilized:
 
 Our platform simplifies the process of creating and managing RAG instances, empowering developers to focus on building high-impact applications without worrying about the complexities of infrastructure, indexing, or scaling.
 
+## Start a Renforce Client
+
+<CodeGroup>
+  ```python Python
+  from renforce import RenforceClient
+
+  client = RenforceClient(space_id="your_Space_id", token="your_token")
+  ```
+</CodeGroup>
+
 ## Initialize a RAG Client
 
 To start using the RAGs service, you need to create a RAG client, this RAG client will attack a specific RAG instance that you set.
@@ -49,11 +59,7 @@ Params:
 
 <CodeGroup>
   ```python Python
-  from renforce import RenforceClient
-
-  renforce = RenforceClient(space_id="your_space_id", token="your_token")
-
-  rag_instance = renforce.rag("your_rag_id")
+  rag_instance = client.rag("your_rag_id")
   ```
 </CodeGroup>
 
