@@ -11,6 +11,16 @@ Our drives enable you to leverage the power of AI from your own data.
 
 * Use our data loaders that  are compatible with a wide array of sources, from Google Drive to OneDrive or AWS SharePoint. Fast & easy, just plug and play your information to our RAG & AI functions.
 
+## Start a Renforce Client
+
+<CodeGroup>
+  ```javascript Python
+  from renforce import RenforceClient
+
+  client = RenforceClient(space_id="your_Space_id", token="your_token")
+  ```
+</CodeGroup>
+
 ## Create a Drive
 
 Params:
@@ -23,9 +33,6 @@ Params:
 
 <CodeGroup>
   ```python Python
-  from renforce import RenforceClient
-
-  client = RenforceClient(space_id="your_Space_id", token="your_token")
 
   client.drive.create(
     name="Genius Docs",
@@ -47,11 +54,9 @@ Params:
   ```
 </CodeGroup>
 
-
-
 ## Drive Files
 
-### Upload a file
+### Upload files
 
 Params:
 
@@ -63,11 +68,11 @@ Params:
   ```
 </CodeGroup>
 
-### Remove a file
+### Remove files
 
 Params:
 
-* `file_id`** : Array with the File IDs to remove - *Required*&#x20;
+* `file_id`\*\* : Array with the File IDs to remove - *Required*&#x20;
 
 <CodeGroup>
   ```python Python
@@ -75,9 +80,9 @@ Params:
   ```
 </CodeGroup>
 
-
-
 ## Drive loaders
+
+\---
 
 ### Add loader
 
