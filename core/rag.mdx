@@ -39,8 +39,6 @@ Here are some practical scenarios where RAG can be utilized:
 
 Our platform simplifies the process of creating and managing RAG instances, empowering developers to focus on building high-impact applications without worrying about the complexities of infrastructure, indexing, or scaling.
 
-
-
 ## Initialize a RAG Client
 
 To start using the RAGs service, you need to create a RAG client, this RAG client will attack a specific RAG instance that you set.
@@ -48,8 +46,6 @@ To start using the RAGs service, you need to create a RAG client, this RAG clien
 Params:
 
 * `rag_id`: (*Required*)
-
-
 
 <CodeGroup>
   ```python Python
@@ -60,8 +56,6 @@ Params:
   client_rag = renforce.rag.init("your_rag_id")
   ```
 </CodeGroup>
-
-
 
 ## Create a RAG Instance
 
@@ -153,7 +147,17 @@ scores = client_rag.search(
 ).filter_by(files=["your_file_ids"])
 ```
 
+### Result
 
+When a request is made, the search method return the following information:
+
+* `file_id`: ID file with the information.
+
+* `score`: % of coincidence between the user query and the passage find it.&#x20;
+
+* `loader_id`: If the file is in any loader.&#x20;
+
+* `page`: If the data is a document the page where the coincidence is.
 
 ## Synchronize RAG instance data
 
@@ -164,8 +168,6 @@ If the instance has a "manual" synchronization mode, it's necessary to force it 
   client_rag.sync()
   ```
 </CodeGroup>
-
-
 
 ## Removing data from an RAG instance
 
