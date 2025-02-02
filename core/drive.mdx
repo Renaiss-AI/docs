@@ -1,5 +1,104 @@
 ---
-title: 'New file'
-description: 'Description of your new file.'
+title: "Drives"
+description: "Plug (& play) your own data."
+sidebarTitle: "Drives"
+icon: "database"
 ---
 
+Our drives enable you to leverage the power of AI from your own data.
+
+* Upload files directly in our storage.
+
+* Use our data loaders that  are compatible with a wide array of sources, from Google Drive to OneDrive or AWS SharePoint. Fast & easy, just plug and play your information to our RAG & AI functions.
+
+## Create a Drive
+
+Params:
+
+* `name`: *Required*
+
+* `description`:  *Optional*
+
+* `sync_mode`:  `automatic` or `manual` - *Optional (By default automatic)*&#x20;
+
+<CodeGroup>
+  ```python Python
+  from renforce import RenforceClient
+
+  client = RenforceClient(space_id="your_Space_id", token="your_token")
+
+  client.drive.create(
+    name="Genius Docs",
+    description="Books abiut Genius",
+    sync_mode="automatic"
+  )
+  ```
+</CodeGroup>
+
+## Init a drive
+
+Params:
+
+* `drive_id` - *Required*
+
+<CodeGroup>
+  ```python Python
+  drive_instance = client.drive("00000000-0000-0000-0000-000000000000")
+  ```
+</CodeGroup>
+
+
+
+## Drive Files
+
+### Upload a file
+
+Params:
+
+* `files` *:* Array with the files to upload - *Required*&#x20;
+
+<CodeGroup>
+  ```python Python
+  drive_instance.files.upload(["edison.pdf", "tesla.pdf", "curie.pdf"])
+  ```
+</CodeGroup>
+
+### Remove a file
+
+Params:
+
+* `file_id`** : Array with the File IDs to remove - *Required*&#x20;
+
+<CodeGroup>
+  ```python Python
+  drive_instance.files.remove(["00000000-0000-0000-0000-000000000000"])
+  ```
+</CodeGroup>
+
+
+
+## Drive loaders
+
+### Add loader
+
+Params:
+
+* `loader_id`: *Required*   &#x20;
+
+<CodeGroup>
+  ```python Python
+  drive_instance.loaders.add("00000000-0000-0000-0000-000000000000")
+  ```
+</CodeGroup>
+
+### Remove loader
+
+Params:
+
+* `loader_id`: *Required*&#x20;
+
+<CodeGroup>
+  ```javascript Python
+  drive_instance.loaders.remove("00000000-0000-0000-0000-000000000000")
+  ```
+</CodeGroup>
