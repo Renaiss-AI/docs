@@ -44,7 +44,10 @@
     {
       "group": "Core",
       "pages": [
-        "core/rag"
+        "core/rag",
+        "core/invoker",
+        "core/drive",
+        "core/loader"
       ]
     },
     {
