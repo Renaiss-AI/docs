@@ -77,6 +77,22 @@ Params:
   ```
 </CodeGroup>
 
+### Get file
+
+Get any file from your drive.
+
+Params:
+
+* `file_id`: *Required*
+
+<CodeGroup>
+  ```python Python
+  drive_instance.files.get_url("your_file_id")
+  ```
+</CodeGroup>
+
+This method return a temporal url with the file.
+
 ## Drive loaders
 
 ### Add loader
@@ -98,7 +114,7 @@ Params:
 * `loader_id`: *Required*&#x20;
 
 <CodeGroup>
-  ```javascript Python
+  ```python Python
   drive_instance.loaders.remove("00000000-0000-0000-0000-000000000000")
   ```
 </CodeGroup>
