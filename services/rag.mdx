@@ -39,6 +39,34 @@ Here are some practical scenarios where RAG can be utilized:
 
 Our platform simplifies the process of creating and managing RAG instances, empowering developers to focus on building high-impact applications without worrying about the complexities of infrastructure, indexing, or scaling.
 
+## Create a RAG Instance
+
+This section explains how to create a RAG instance on our platform. Follow these steps to set up your instance and customize it according to your use case.
+
+Params:
+
+* `name` (Required)
+
+* `description` (Optional)
+
+* `sync_mode` *automatic* or *manual* (Optional, *automatic* by default)
+
+<CodeGroup>
+  ```python Python
+  rag_instance = client.rag.create(
+    name="Test RAG",
+    description="This a test", 
+    sync_mode="automatic"
+  )
+  ```
+
+  ```
+  console.log("Hello World");
+  ```
+</CodeGroup>
+
+***
+
 ## Start a Renforce Client
 
 <CodeGroup>
@@ -62,34 +90,6 @@ Params:
   rag_instance = client.rag("your_rag_id")
   ```
 </CodeGroup>
-
-## Create a RAG Instance
-
-This section explains how to create a RAG instance on our platform. Follow these steps to set up your instance and customize it according to your use case.
-
-Params:
-
-* `name` (Required)
-
-* `description` (Optional)
-
-* `sync_mode` *automatic* or *manual* (Optional, *automatic* by default)
-
-<CodeGroup>
-  ```python Python
-  rag_instance.create(
-    name="Test RAG",
-    description="This a test", 
-    sync_mode="automatic"
-  )
-  ```
-
-  ```
-  console.log("Hello World");
-  ```
-</CodeGroup>
-
-***
 
 ## Index Data
 
